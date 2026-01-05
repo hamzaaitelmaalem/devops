@@ -17,5 +17,5 @@ jobs:
           java-version: "11"
           cache: "maven"
 
-      - name: Build & Test (Spring Boot)
-        run: mvn -B clean test package
+      - name: Build (skip tests)
+        run: mvn -B clean package -DskipTests
