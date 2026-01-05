@@ -2,15 +2,12 @@ name: CI
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main"]
   pull_request:
 
 jobs:
   backend:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend   # supprime cette ligne si ton pom.xml est à la racine
     steps:
       - uses: actions/checkout@v4
 
