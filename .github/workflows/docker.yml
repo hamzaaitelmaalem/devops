@@ -1,0 +1,28 @@
+name: Build & Push Docker Images
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USER }} --password-stdin
+
+      - name: Build backend image
+        run: docker build -f docker/backend.Dockerfile -t ghcr.io/${{ secrets.GHCR_USER }}/lims-backend:latest .
+
+      - name: Build frontend image
+        run: docker build -f docker/frontend.Dockerfile -t ghcr.io/${{ secrets.GHCR_USER }}/lims-frontend:latest .
+
+      - name: Push images
+        run: |
+          docker push ghcr.io/${{ secrets.GHCR_USER }}/lims-backend:latest
+          docker push ghcr.io/${{ secrets.GHCR_USER }}/lims-frontend:latest
