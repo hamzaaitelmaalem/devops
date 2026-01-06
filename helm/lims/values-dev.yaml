@@ -1,0 +1,13 @@
+backend:
+  name: lims-backend
+  replicas: 1
+
+  image:
+    repository: ghcr.io/hamzaaitelmaalem/lims-backend
+    tag: latest
+
+  containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
