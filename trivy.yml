@@ -1,0 +1,25 @@
+name: Trivy (Images)
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -f docker/backend.Dockerfile -t lims-backend:scan .
+
+
+      - name: Scan backend
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: lims-backend:scan
+          format: table
+          severity: CRITICAL,HIGH
+
+     
